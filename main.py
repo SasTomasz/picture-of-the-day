@@ -1,11 +1,23 @@
+import schedule
 import streamlit as st
 
-with open("./assets/data/apod.txt") as file:
+import api_helper
+
+
+def job():
+    api_helper.get_data_from_api()
+
+
+schedule.every().day.at('07:00').do(job)
+
+with open("./static/apod.txt") as file:
     image_description = file.read()
 
-with open("./assets/data/apod_title.txt") as file:
+with open("./static/apod_title.txt") as file:
     title = file.read()
 
 st.header(title, divider='rainbow')
-st.image("./assets/images/apod.jpg")
+st.image("./static/apod.jpg")
 st.write(image_description)
+
+schedule.run_pending()
