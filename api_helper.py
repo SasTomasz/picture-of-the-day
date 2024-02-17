@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+import json
 
 
 def get_data_from_api():
@@ -12,14 +13,16 @@ def get_data_from_api():
     image_url = r['hdurl']
     image = requests.get(image_url).content
 
+    # Construct json
+    image_info = {"title": r["title"], "explanation": r["explanation"]}
+    json_object = json.dumps(image_info, indent=4)
+
     with open("./static/apod.jpg", "wb") as file:
         file.write(image)
 
-    with open("./static/apod.txt", "w") as file:
-        file.write(r['explanation'])
+    with open("./static/apod_info.json", "w") as file:
+        file.write(json_object)
 
-    with open("./static/apod_title.txt", "w") as file:
-        file.write(r['title'])
     return r
 
 

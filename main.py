@@ -1,5 +1,6 @@
 import schedule
 import streamlit as st
+import json
 
 import api_helper
 
@@ -10,14 +11,11 @@ def job():
 
 schedule.every().day.at('07:00').do(job)
 
-with open("./static/apod.txt") as file:
-    image_description = file.read()
+with open("./static/apod_info.json") as file:
+    apod_info = json.loads(file.read())
 
-with open("./static/apod_title.txt") as file:
-    title = file.read()
-
-st.header(title, divider='rainbow')
+st.header(apod_info["title"], divider='rainbow')
 st.image("./static/apod.jpg")
-st.write(image_description)
+st.write(apod_info["explanation"])
 
 schedule.run_pending()
