@@ -4,6 +4,12 @@ import json
 
 import api_helper
 
+is_first_run = True
+
+if is_first_run:
+    api_helper.get_data_from_api()
+    is_first_run = False
+
 
 def job():
     api_helper.get_data_from_api()
