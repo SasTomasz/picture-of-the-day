@@ -21,7 +21,13 @@ with open("./static/apod_info.json") as file:
     apod_info = json.loads(file.read())
 
 st.header(apod_info["title"], divider='rainbow')
-st.image("./static/apod.jpg")
+
+# Set video or image
+if not apod_info["media_type"] == "video":
+    st.image("./static/apod.jpg")
+else:
+    st.video(apod_info["video_url"])
+
 st.write(apod_info["explanation"])
 
 schedule.run_pending()

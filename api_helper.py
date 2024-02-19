@@ -1,6 +1,13 @@
 import requests
 import streamlit as st
 import json
+import app_logger
+
+logger = app_logger.get_logger()
+
+
+def check_data_type(data: any):
+    return data["media_type"]
 
 
 def get_data_from_api():
@@ -9,23 +16,32 @@ def get_data_from_api():
     url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
     r = requests.get(url).json()
 
-    # Get image
-    image_url = r['hdurl']
-    image = requests.get(image_url).content
+    try:
+        video_url = r["url"]
 
-    # Construct json
-    image_info = {"title": r["title"], "explanation": r["explanation"]}
-    json_object = json.dumps(image_info, indent=4)
+        if not r["media_type"] == "video":
+            # Get and save image
+            image_url = r['hdurl']
+            image = requests.get(image_url).content
 
-    with open("./static/apod.jpg", "wb") as file:
-        file.write(image)
+            with open("./static/apod.jpg", "wb") as file:
+                file.write(image)
 
-    with open("./static/apod_info.json", "w") as file:
-        file.write(json_object)
+            video_url = "Empty"
 
-    return r
+        # Construct json
+        image_info = {"title": r["title"], "explanation": r["explanation"],
+                      "media_type": r["media_type"], "video_url": video_url}
+        json_object = json.dumps(image_info, indent=4)
+
+        with open("./static/apod_info.json", "w") as file:
+            file.write(json_object)
+
+        return r
+    except KeyError as error:
+        logger.error(error)
 
 
 if __name__ == "__main__":
     response = get_data_from_api()
-    print(response)
+    logger.info(response)

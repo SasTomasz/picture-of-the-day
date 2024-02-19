@@ -1,0 +1,4 @@
+2024-02-19 09:00:15,239 DEBUG _new_conn(1055) Starting new HTTPS connection (1): api.nasa.gov:443
+2024-02-19 09:00:17,029 DEBUG _make_request(549) https://api.nasa.gov:443 "GET /planetary/apod?api_key=mgjAryb8pjqbFzMX6zYACwyUJtQQ51KUgKfJbF4e HTTP/1.1" 200 None
+2024-02-19 09:00:20,344 DEBUG _new_conn(1055) Starting new HTTPS connection (1): api.nasa.gov:443
+2024-02-19 09:00:22,079 DEBUG _make_request(549) https://api.nasa.gov:443 "GET /planetary/apod?api_key=mgjAryb8pjqbFzMX6zYACwyUJtQQ51KUgKfJbF4e HTTP/1.1" 200 None
