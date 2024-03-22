@@ -1,10 +1,10 @@
 import logging
-from logging.handlers import RotatingFileHandler
-import sys
 import os
+import sys
+from logging.handlers import RotatingFileHandler
 
 
-def get_logger():
+def set_new_logger(name):
     log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(funcName)s(%(lineno)d) %(message)s')
     logs_dir = "./app_logs"
     if not os.path.isdir(logs_dir):
@@ -15,7 +15,7 @@ def get_logger():
     my_handler.setFormatter(log_formatter)
     my_handler.setLevel(logging.DEBUG)
 
-    app_logger = logging.getLogger('root')
+    app_logger = logging.getLogger(name)
     app_logger.setLevel(logging.DEBUG)
 
     app_logger.addHandler(my_handler)

@@ -1,9 +1,8 @@
+import json
+import logging
+
 import requests
 import streamlit as st
-import json
-import app_logger
-
-logger = app_logger.get_logger()
 
 
 def check_data_type(data: any):
@@ -43,5 +42,8 @@ def get_data_from_api():
 
 
 if __name__ == "__main__":
+    logger = logging.getLogger('temp')
     response = get_data_from_api()
     logger.info(response)
+else:
+    logger = logging.getLogger('main')

@@ -1,33 +1,40 @@
-import schedule
-import streamlit as st
 import json
 
+import schedule
+import streamlit as st
+
 import api_helper
-
-is_first_run = True
-
-if is_first_run:
-    api_helper.get_data_from_api()
-    is_first_run = False
+import app_logger
 
 
 def job():
     api_helper.get_data_from_api()
 
 
-schedule.every().day.at('07:00').do(job)
+if __name__ == "__main__":
 
-with open("./static/apod_info.json") as file:
-    apod_info = json.loads(file.read())
+    is_first_run = True
 
-st.header(apod_info["title"], divider='rainbow')
+    if is_first_run:
+        app_logger.set_new_logger('main')
+        api_helper.get_data_from_api()
+        is_first_run = False
 
-# Set video or image
-if not apod_info["media_type"] == "video":
-    st.image("./static/apod.jpg")
-else:
-    st.video(apod_info["video_url"])
+    schedule.every().day.at('07:00').do(job)
 
-st.write(apod_info["explanation"])
+    with open("./static/apod_info.json") as file:
+        apod_info = json.loads(file.read())
 
-schedule.run_pending()
+    st.header(apod_info["title"], divider='rainbow')
+
+    # Set video or image
+    if not apod_info["media_type"] == "video":
+        st.image("./static/apod.jpg")
+    else:
+        st.video(apod_info["video_url"])
+
+    st.write(apod_info["explanation"])
+
+    schedule.run_pending()
+
+
