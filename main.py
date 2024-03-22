@@ -34,6 +34,9 @@ if __name__ == "__main__":
         st.video(apod_info["video_url"])
 
     st.write(apod_info["explanation"])
+    st.write("All above data comes from NASA API for Astronomy Picture of the Day")
+    # st.write("You can get more knowledge about it on ")
+    st.page_link("https://api.nasa.gov/", label="https://api.nasa.gov/")
 
     schedule.run_pending()
 
